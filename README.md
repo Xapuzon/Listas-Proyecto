@@ -21,9 +21,3 @@ Gestiona un `ArrayList<Tarea>` con las siguientes operaciones:
 
 ### `App`
 Clase principal con menú interactivo por consola que permite usar todas las operaciones del gestor.
-
-## Ejecución
-
-1. Abre el proyecto en IntelliJ IDEA
-2. Marca la carpeta `src` como *Sources Root*
-3. Ejecuta `App.java`
