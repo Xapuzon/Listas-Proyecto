@@ -1,9 +1,10 @@
 import java.util.ArrayList;
 import java.util.Scanner;
 
+// Menú interactivo para usar todas las operaciones del GestorTareas
 public class App {
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
+        Scanner sc = new Scanner(System.in);
         GestorTareas gestor = new GestorTareas();
         int opcion;
 
@@ -20,20 +21,20 @@ public class App {
             System.out.println("9. Limpiar todas las tareas");
             System.out.println("0. Salir");
             System.out.print("Elige una opción: ");
-            opcion = scanner.nextInt();
-            scanner.nextLine();
+            opcion = sc.nextInt();
+            sc.nextLine(); // limpia el salto de línea que deja nextInt()
 
             switch (opcion) {
-                case 1:
+                case 1: // pide datos al usuario y añade la tarea
                     System.out.print("Título: ");
-                    String titulo = scanner.nextLine();
+                    String titulo = sc.nextLine();
                     System.out.print("Etiqueta (estudio/casa/trabajo): ");
-                    String etiqueta = scanner.nextLine();
+                    String etiqueta = sc.nextLine();
                     System.out.print("Prioridad (1-5): ");
-                    int prioridad = scanner.nextInt();
-                    scanner.nextLine();
+                    int prioridad = sc.nextInt();
+                    sc.nextLine();
                     System.out.print("¿Completada? (s/n): ");
-                    boolean completada = scanner.nextLine().equalsIgnoreCase("s");
+                    boolean completada = sc.nextLine().equalsIgnoreCase("s");
                     Tarea nueva = new Tarea(titulo, etiqueta, prioridad, completada);
                     if (gestor.anadir(nueva)) {
                         System.out.println("Tarea añadida correctamente.");
@@ -42,20 +43,20 @@ public class App {
                     }
                     break;
 
-                case 2:
+                case 2: // elimina por título, avisa si no existe
                     System.out.print("Título a eliminar: ");
-                    String titElim = scanner.nextLine();
-                    if (gestor.eliminarPorTitulo(titElim)) {
+                    String tituloEliminar = sc.nextLine();
+                    if (gestor.eliminarPorTitulo(tituloEliminar)) {
                         System.out.println("Tarea eliminada.");
                     } else {
                         System.out.println("No se encontró ninguna tarea con ese título.");
                     }
                     break;
 
-                case 3:
+                case 3: // busca y muestra la tarea, o avisa si no existe
                     System.out.print("Título a buscar: ");
-                    String titBuscar = scanner.nextLine();
-                    Tarea encontrada = gestor.obtenerPorTitulo(titBuscar);
+                    String tituloBuscar = sc.nextLine();
+                    Tarea encontrada = gestor.obtenerPorTitulo(tituloBuscar);
                     if (encontrada != null) {
                         System.out.println("Encontrada: " + encontrada);
                     } else {
@@ -63,7 +64,7 @@ public class App {
                     }
                     break;
 
-                case 4:
+                case 4: // muestra todas las tareas de la lista
                     ArrayList<Tarea> todas = gestor.listarTodas();
                     if (todas.isEmpty()) {
                         System.out.println("No hay tareas.");
@@ -75,21 +76,21 @@ public class App {
                     }
                     break;
 
-                case 5:
+                case 5: // filtra y muestra solo las tareas con la etiqueta indicada
                     System.out.print("Etiqueta a filtrar: ");
-                    String etFiltro = scanner.nextLine();
-                    ArrayList<Tarea> porEtiqueta = gestor.listarPorEtiqueta(etFiltro);
-                    if (porEtiqueta.isEmpty()) {
+                    String etiquetaFiltro = sc.nextLine();
+                    ArrayList<Tarea> tareasPorEtiqueta = gestor.listarPorEtiqueta(etiquetaFiltro);
+                    if (tareasPorEtiqueta.isEmpty()) {
                         System.out.println("No hay tareas con esa etiqueta.");
                     } else {
-                        System.out.println("--- Tareas con etiqueta '" + etFiltro + "' ---");
-                        for (Tarea t : porEtiqueta) {
+                        System.out.println("--- Tareas con etiqueta '" + etiquetaFiltro + "' ---");
+                        for (Tarea t : tareasPorEtiqueta) {
                             System.out.println(t);
                         }
                     }
                     break;
 
-                case 6:
+                case 6: // muestra solo las tareas con completada=false
                     ArrayList<Tarea> pendientes = gestor.listarPendientes();
                     if (pendientes.isEmpty()) {
                         System.out.println("No hay tareas pendientes.");
@@ -101,19 +102,19 @@ public class App {
                     }
                     break;
 
-                case 7:
+                case 7: // busca la tarea por título y pone completada=true
                     System.out.print("Título de la tarea a completar: ");
-                    String titCompletar = scanner.nextLine();
-                    gestor.marcarCompletada(titCompletar);
+                    String tituloCompletar = sc.nextLine();
+                    gestor.marcarCompletada(tituloCompletar);
                     System.out.println("Operación realizada (si existía la tarea, ya está completada).");
                     break;
 
-                case 8:
+                case 8: // calcula y muestra la media de prioridad de todas las tareas
                     double media = gestor.mediaPrioridad();
                     System.out.println("Media de prioridad: " + media);
                     break;
 
-                case 9:
+                case 9: // borra todas las tareas de la lista
                     gestor.limpiar();
                     System.out.println("Lista limpiada.");
                     break;
@@ -127,6 +128,6 @@ public class App {
             }
         } while (opcion != 0);
 
-        scanner.close();
+        sc.close();
     }
 }
